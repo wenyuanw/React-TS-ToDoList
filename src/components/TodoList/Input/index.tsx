@@ -1,26 +1,22 @@
-import { useRef, FC, ReactElement } from "react"
-import { ITodo } from "../typings"
+import { useRef, FC, ReactElement } from 'react'
+import { ITodo } from '../typings'
 
 interface IProps {
-  addTodo: (todo: ITodo) => void;
-  todoList: ITodo[];
+  addTodo: (todo: ITodo) => void
+  todoList: ITodo[]
 }
 
-const TdInput: FC<IProps> = ({
-  addTodo,
-  todoList,
-}): ReactElement => {
-
+const TdInput: FC<IProps> = ({ addTodo, todoList }): ReactElement => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const addItem = (): void => {
     const val: string = inputRef.current!.value.trim()
 
     if (val.length) {
-      const isExist = todoList.find(todo => todo.content === val)
+      const isExist = todoList.find((todo) => todo.content === val)
 
-      if(isExist) {
-        alert("已存在该项")
+      if (isExist) {
+        alert('已存在该项')
         return
       }
 
@@ -30,14 +26,14 @@ const TdInput: FC<IProps> = ({
         comppleted: false,
       })
 
-      inputRef.current!.value = ""
+      inputRef.current!.value = ''
     }
   }
 
   return (
-    <div className="todo-input">
-      <input type="text" placeholder="请输入待办项" ref={ inputRef } />
-      <button onClick={ addItem }>增加</button>
+    <div className='todo-input'>
+      <input type='text' placeholder='请输入待办项' ref={inputRef} />
+      <button onClick={addItem}>增加</button>
     </div>
   )
 }
