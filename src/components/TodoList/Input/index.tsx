@@ -1,4 +1,4 @@
-import { useRef, FC, ReactElement } from 'react'
+import { FC, ReactElement, useRef } from 'react'
 import { ITodo } from '../typings'
 
 interface IProps {
@@ -23,7 +23,7 @@ const TdInput: FC<IProps> = ({ addTodo, todoList }): ReactElement => {
       addTodo({
         id: new Date().getTime(),
         content: val,
-        comppleted: false,
+        comppleted: false
       })
 
       inputRef.current!.value = ''
@@ -31,9 +31,9 @@ const TdInput: FC<IProps> = ({ addTodo, todoList }): ReactElement => {
   }
 
   return (
-    <div className='todo-input'>
-      <input type='text' placeholder='请输入待办项' ref={inputRef} />
-      <button onClick={addItem}>增加</button>
+    <div className="todo-input">
+      <input type="text" placeholder="请输入待办项" ref={ inputRef }/>
+      <button onClick={ addItem }>增加</button>
     </div>
   )
 }
