@@ -5,22 +5,37 @@ import TdList from './List'
 import { ACTION_TYPE, IState, ITodo } from './typings'
 import { todoReducer } from '../reducer'
 
-
-const initialState: IState = {
-  todoList: []
+// 惰性初始化
+function init(initTodoList: ITodo[]): IState {
+  return {
+    todoList: initTodoList
+  }
 }
 
 const TodoList: FC = (): ReactElement => {
-  // const [todoList, setTodoList] = useState<ITodo[]>([])
 
-  const [state, dispatch] = useReducer(todoReducer, initialState)
+  const [state, dispatch] = useReducer(todoReducer, [], init)
+
+  // 一开始由于模板生成的代码中使用了 React.StrictMode 导致这个 hook 运行了两次
+  // https://zh-hans.reactjs.org/docs/strict-mode.html
+  useEffect(() => {
+    console.log('-1-', JSON.parse(localStorage.getItem('todolist') || '[]'))
+    const todoList = JSON.parse(localStorage.getItem('todolist') || '[]') as ITodo[]
+
+    dispatch({
+        type: ACTION_TYPE.INIT_TODOLIST,
+        payload: todoList
+      }
+    )
+
+    console.log('-2-', state.todoList)
+  }, [])
 
   useEffect(() => {
-    console.log(state.todoList)
+    localStorage.setItem('todolist', JSON.stringify(state.todoList))
   }, [state.todoList])
 
   const addTodo = useCallback((todo: ITodo): void => {
-    // setTodoList((todoList) => [...todoList, todo])
     dispatch({
         type: ACTION_TYPE.ADD_TODO,
         payload: todo

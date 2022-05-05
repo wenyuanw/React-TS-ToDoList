@@ -16,14 +16,13 @@ const TdInput: FC<IProps> = ({ addTodo, todoList }): ReactElement => {
       const isExist = todoList.find((todo) => todo.content === val)
 
       if (isExist) {
-        alert('已存在该项')
-        return
+        return alert('已存在该项')
       }
 
       addTodo({
         id: new Date().getTime(),
         content: val,
-        comppleted: false
+        completed: false
       })
 
       inputRef.current!.value = ''
