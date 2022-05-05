@@ -22,7 +22,7 @@ const TdInput: FC<IProps> = ({ addTodo, todoList }): ReactElement => {
       addTodo({
         id: new Date().getTime(),
         content: val,
-        completed: false
+        completed: false,
       })
 
       inputRef.current!.value = ''
@@ -30,9 +30,19 @@ const TdInput: FC<IProps> = ({ addTodo, todoList }): ReactElement => {
   }
 
   return (
-    <div className="todo-input">
-      <input type="text" placeholder="请输入待办项" ref={ inputRef }/>
-      <button onClick={ addItem }>增加</button>
+    <div className='rounded-md shadow-sm todo-input my-2'>
+      <input
+        className='rounded-md pl-2 w-200'
+        type='text'
+        placeholder='请输入待办项'
+        ref={inputRef}
+      />
+      <button
+        className='w-8 ml-2 bg-sky-600 hover:bg-sky-700 rounded-full te font-bold text-white'
+        onClick={addItem}
+      >
+        +
+      </button>
     </div>
   )
 }
