@@ -1,4 +1,4 @@
-import { FC, ReactElement, useCallback, useEffect, useReducer } from 'react'
+import { FC, ReactElement, useCallback, useEffect, useReducer, useRef } from 'react'
 
 import TdInput from './Input'
 import TdList from './List'
@@ -18,17 +18,23 @@ const TodoList: FC = (): ReactElement => {
 
   // 一开始由于模板生成的代码中使用了 React.StrictMode 导致这个 hook 运行了两次
   // https://zh-hans.reactjs.org/docs/strict-mode.html
+  // https://github.com/reactwg/react-18/discussions/18
+
+  const didInitList = useRef(false)
+
   useEffect(() => {
-    console.log('-1-', JSON.parse(localStorage.getItem('todolist') || '[]'))
-    const todoList = JSON.parse(localStorage.getItem('todolist') || '[]') as ITodo[]
+    // In this case, whether we are mounting or remounting,
+    // we use a ref so that we only run this function once.
+    if (!didInitList.current) {
+      didInitList.current = true
+      const todoList = JSON.parse(localStorage.getItem('todolist') || '[]') as ITodo[]
 
-    dispatch({
-        type: ACTION_TYPE.INIT_TODOLIST,
-        payload: todoList
-      }
-    )
-
-    console.log('-2-', state.todoList)
+      dispatch({
+          type: ACTION_TYPE.INIT_TODOLIST,
+          payload: todoList
+        }
+      )
+    }
   }, [])
 
   useEffect(() => {
